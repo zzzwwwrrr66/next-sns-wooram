@@ -7,5 +7,5 @@ export default (inputValue = null)=> {
     setValue(e.target.value);
   }, [])
 
-  return [value, onChange]
+  return [value, onChange, setValue]
 }

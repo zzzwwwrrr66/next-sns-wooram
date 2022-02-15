@@ -1,0 +1,9 @@
+.imageListWrap {
+  display: flex;
+}
+.imageListWrap>div {
+  flex: 1;
+}
+.imageListWrap>div>img {
+  width: 100%;
+}

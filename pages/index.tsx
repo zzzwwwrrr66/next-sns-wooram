@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import {RootState} from '../store/recusers'
 
 // components 
-import PostForm from '../components/Post/PostForm';
-import PostContents from '../components/Post/PostContents';
+import PostForm from '../components/post/PostForm';
+import PostList from '../components/post/PostList';
 
 const Home: NextPage = () => {
   const user = useSelector((state:RootState)=>state.userReducer);
@@ -27,12 +27,13 @@ const Home: NextPage = () => {
       {
         post.mainPosts.map(v=> {
           return(
-            <PostContents 
+            <PostList 
               id={v.id} 
               content={v.content} 
               userId={v.User.id} 
               nickname={v.User.nickname}
               comments={v.Comments}
+              images={v.Images}
             />
           )
         })

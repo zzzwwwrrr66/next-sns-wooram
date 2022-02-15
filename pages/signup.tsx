@@ -4,7 +4,7 @@ import Image from 'next/image';
 import CommonContainer from '../components/CommonContainer';
 
 // components
-import NewAccountForm from '../components/SignUp/NewAccountForm';
+import NewAccountForm from '../components/signUp/NewAccountForm';
 
 const Signup = () => {
   return (

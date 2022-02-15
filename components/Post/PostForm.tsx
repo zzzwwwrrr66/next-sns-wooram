@@ -4,7 +4,7 @@ import {useCallback, useState} from 'react'
 import { Form, Button } from 'react-bootstrap';
 
 // custom Hooks
-import useInput from '../../Hooks/useInput';
+import useInput from '../../hooks/useInput';
 
 //redux
 import { useDispatch } from 'react-redux';

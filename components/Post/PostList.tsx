@@ -6,6 +6,11 @@ import { RootState } from '../../store/recusers';
 //css 
 import { Card, ButtonGroup, ToggleButton, Dropdown, DropdownButton } from 'react-bootstrap';
 
+// Components
+import CommentForm from './CommentForm';
+import CommentList from './CommentList';
+import ImageList from './ImageList';
+
 interface IProps {
   userId: number
   id: number,
@@ -16,16 +21,18 @@ interface IProps {
       nickname: string,
     },
     content: string,
+  }[],
+  images: {
+    src: string
   }[]
 }
 
-const PostContents = ({userId, id, content, nickname, comments} : IProps) => {
+const PostContents = ({userId, id, content, nickname, comments, images} : IProps) => {
   const post = useSelector((state:RootState)=>state.postReducer);
   const user = useSelector((state:RootState)=>state.userReducer);
 
   const [ liked, setLiked ] = useState(false);
   const [ commentOpend, setCommnetOpend ] = useState(false);
-  console.log('postContents', post, user);
 
   const onLikedChange = () => {
     setLiked(prev=>!prev)
@@ -36,9 +43,18 @@ const PostContents = ({userId, id, content, nickname, comments} : IProps) => {
 
   
   return (
-    <Card key={id} style={{ marginBottom: '15px' }}>
+    <div key={id} style={{marginBottom: '10px'}}>
+    <Card style={{ marginBottom: '15px' }}>
+
       <Card.Header as="h5">{nickname}</Card.Header>
       <Card.Text>{content}</Card.Text>
+
+      <ImageList images={images}/>
+
+      <Card.Text>
+        
+      </Card.Text>
+
       <ToggleButton
         size='sm'
         className="mb-2"
@@ -60,7 +76,7 @@ const PostContents = ({userId, id, content, nickname, comments} : IProps) => {
         value="1"
         onChange={onCommentOpendChange}
       >
-        Comment
+        Comment({comments.length})
       </ToggleButton>
 
       <DropdownButton id="dropdown-basic-button" title="small menu">
@@ -76,10 +92,17 @@ const PostContents = ({userId, id, content, nickname, comments} : IProps) => {
         }
       </DropdownButton>
       
-      {
-        commentOpend && <div>comments opend</div> 
-      }
     </Card>
+    
+      {
+        commentOpend && (
+          <>
+            <CommentForm />
+            <CommentList comments={comments}></CommentList>
+          </>
+        )
+      }
+    </div>
   )
 }
 
