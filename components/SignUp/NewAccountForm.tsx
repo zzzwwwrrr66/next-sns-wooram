@@ -2,7 +2,7 @@
 import {useState} from 'react';
 
 // custom Hooks
-import useInput from '../../Hooks/useInput';
+import useInput from '../../hooks/useInput';
 
 // css 
 import { Nav, Col, Row, Container, Card, Button, Stack, Form } from 'react-bootstrap';

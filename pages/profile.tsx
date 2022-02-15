@@ -4,9 +4,9 @@ import Image from 'next/image';
 import CommonContainer from '../components/CommonContainer';
 
 //components 
-import FollowList from '../components/Profile/FollowList';
-import FollowingList from '../components/Profile/FollowingList';
-import NameUpdate from '../components/Profile/NameUpdate';
+import FollowList from '../components/profile/FollowList';
+import FollowingList from '../components/profile/FollowingList';
+import NameUpdate from '../components/profile/NameUpdate';
 
 
 const Profile = () => {
