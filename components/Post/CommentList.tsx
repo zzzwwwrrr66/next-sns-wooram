@@ -14,7 +14,7 @@ const CommentList:FC<IProps> = ({comments}) => {
     comments?.map((v,i) => {
       return((
         <div key={v.content + i}>
-        <p>{v.User.nickname} : {v.content}</p>
+          <p>{v.User.nickname} : {v.content}</p>
         </div>
       ))
     })

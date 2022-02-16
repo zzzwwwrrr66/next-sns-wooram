@@ -1,12 +1,13 @@
 
 export const initialState = {
-  mainPosts: [{
+  mainPosts: [
+    {
     id: 1,
     User: {
       id: 1,
       nickname: 'wooram',
     },
-    content: '첫 번째 게시글',
+    content: '첫 번째 게시글 #asdb #wooram',
     Images: [{
       src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
     }, {
@@ -33,7 +34,8 @@ export const initialState = {
       },
       content: '얼른 사고싶어요~',
     }]
-  }],
+  }
+],
   imagePaths: [],
   postAdded: false,
 };

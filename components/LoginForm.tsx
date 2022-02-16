@@ -8,7 +8,7 @@ import { Form , Button, Stack} from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
 
 //store 
-import {actionLogin, logoutAction} from '../store/userReducer';
+import {actionLogin, logoutAction, LoginReqAction} from '../store/userReducer';
 // store type
 import {RootState} from '../store/recusers';
 
@@ -37,11 +37,11 @@ const LoginForm = () => {
     e.preventDefault();
 
     const data = {
-      userId: '1',
+      userId: '1', // userId 임의 설정함
       name : id,
       password: password
     }
-    dispatch(actionLogin(data));
+    dispatch(LoginReqAction(data));
   }, [])
 
   return(

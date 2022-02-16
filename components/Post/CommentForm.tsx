@@ -1,5 +1,5 @@
 // react
-import { FC, useState, useCallback } from 'react';
+import { FC, useState, useCallback, useEffect } from 'react';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -12,18 +12,22 @@ import { Form, FloatingLabel, Button, Container } from 'react-bootstrap';
 import useInput from '../../hooks/useInput';
 
 interface IProps {
-  commentOpend: boolean;
+  contentId: number,
 }
 
-const CommentForm:FC = () => {
+const CommentForm:FC<IProps> = ({contentId}) => {
   const userId = useSelector((state:RootState) => state.userReducer.user?.userId);
   const [comment, onChangeComment, setComment] = useInput('');
 
+  useEffect(()=>{
+    console.log('commentForm content ID', contentId);
+  },[]);
+
   const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('userId', userId, comment);
+    console.log('userId', userId,'content ID',contentId, 'comment', comment);
     setComment('');
-  },[comment])
+  },[comment, contentId, userId]);
 
   return (
     <div style={{border: 'dotted', padding: '10px'}}>

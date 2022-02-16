@@ -1,4 +1,7 @@
-import {useState} from 'react';
+// react next
+import {useState, useEffect} from 'react';
+import Link from 'next/link';
+
 //redux
 import { useSelector } from "react-redux";
 import { RootState } from '../../store/recusers';
@@ -20,7 +23,7 @@ interface IProps {
     User: {
       nickname: string,
     },
-    content: string,
+    content: string ,
   }[],
   images: {
     src: string
@@ -30,6 +33,10 @@ interface IProps {
 const PostContents = ({userId, id, content, nickname, comments, images} : IProps) => {
   const post = useSelector((state:RootState)=>state.postReducer);
   const user = useSelector((state:RootState)=>state.userReducer);
+
+  useEffect(()=>{
+    console.log('PostList content ID', id);
+  },[])
 
   const [ liked, setLiked ] = useState(false);
   const [ commentOpend, setCommnetOpend ] = useState(false);
@@ -47,7 +54,24 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
     <Card style={{ marginBottom: '15px' }}>
 
       <Card.Header as="h5">{nickname}</Card.Header>
-      <Card.Text>{content}</Card.Text>
+      <Card.Body>
+        {
+        content.split(/(#[^\s#]+)/g).map(v=>{
+          if (v.match(/(#[^\s]+)/)) {
+            return (
+              <Link
+                href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}
+                as={`/hashtag/${v.slice(1)}`}
+                key={v}
+              >
+                <a>{v}</a>
+              </Link> 
+            );
+          }
+          return v;
+        })
+        }
+      </Card.Body>
 
       <ImageList images={images}/>
 
@@ -97,7 +121,7 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
       {
         commentOpend && (
           <>
-            <CommentForm />
+            <CommentForm contentId={id} />
             <CommentList comments={comments}></CommentList>
           </>
         )
