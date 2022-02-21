@@ -186,10 +186,10 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.fakerAddPostLoading = true;
     break;
     case LOAD_FAKER_ADD_POST_SUCCESS:
-      console.log('REDUCER LOAD_FAKER_ADD_POST_SUCCESS', action.payload);
-      draft.hasMorePost = draft.mainPosts.length < 50;
-      draft.mainPosts = draft.mainPosts.concat(action.payload);
       draft.fakerAddPostLoading = false;
+      console.log('REDUCER LOAD_FAKER_ADD_POST_SUCCESS', action.payload);
+      draft.mainPosts = draft.mainPosts.concat(action.payload);
+      draft.hasMorePost = draft.mainPosts.length < 50;
 
     break;
     case LOAD_FAKER_ADD_POST_FAIL:

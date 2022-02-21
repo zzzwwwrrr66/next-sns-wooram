@@ -99,6 +99,7 @@ function fakerAddPostAPI(data) {
 function* fakerAddPost(action) {
   try {
     yield delay(1000);
+    
     yield put({
       type: LOAD_FAKER_ADD_POST_SUCCESS,
       payload : generateDummyPost(10),
@@ -112,7 +113,7 @@ function* fakerAddPost(action) {
   }
 }
 function* watchFakerAddPost() {
-  yield throttle(5000, LOAD_FAKER_ADD_POST_REQUEST, fakerAddPost);
+  yield throttle(4000, LOAD_FAKER_ADD_POST_REQUEST, fakerAddPost);
 }
 
 export default function* userSaga() {

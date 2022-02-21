@@ -30,14 +30,21 @@ const Home: NextPage = () => {
   // on scroll faker add post request S
   useEffect(()=>{
     function test() {
-      if(window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-        if(post.hasMorePost && !post.fakerAddPostLoading ) {
+      const scrollY = window.scrollY;
+      const clientHeight = document.documentElement.clientHeight;
+      const scrollHeight = document.documentElement.scrollHeight;
+
+      if(scrollY + clientHeight > scrollHeight - 300) {
+        if(post.hasMorePost && !post.fakerAddPostLoading) {
           dispatch(loadFakerAddPostReqAction);
         }
       }
     }
     window.addEventListener('scroll', test);
-  }, [post.hasMorePost]);
+    return () => {
+      window.removeEventListener('scroll', test);
+    };
+  }, [post.fakerAddPostLoading, post.hasMorePost]);
   // on scroll faker add post request E
   
   return (
