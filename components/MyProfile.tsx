@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction, logoutReqAction } from '../store/userReducer';
+import { logoutReqAction } from '../store/userReducer';
 import CommonContainer from "./CommonContainer";
 
 const MyProfile = () => {

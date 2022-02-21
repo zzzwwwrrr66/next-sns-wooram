@@ -3,12 +3,9 @@ import axios from 'axios';
 
 // actions 
 import { 
-  LOGIN_REQUEST, 
-  LOGIN_SUCCESS, 
-  LOGIN_FAIL,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAIL
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
+  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL,
+  UPDATE_NAME_REQUEST, UPDATE_NAME_SUCCESS, UPDATE_NAME_FAIL,
 } from '../store/userReducer';
 
 function logInAPI(data) {
@@ -47,6 +44,22 @@ function* logout(action) {
   }
 }
 
+function* nameUpdate(action) {
+  try {
+    console.log('saga name update ', action.payload);
+    yield delay(1000);
+    yield put({
+      type: UPDATE_NAME_SUCCESS,
+      payload: action.payload,
+    });
+  } catch (err) {
+    yield put({
+      type: UPDATE_NAME_FAIL,
+      error: err.response.data,
+    });
+  }
+}
+
 
 function* watchLogIn() {
   yield takeLatest(LOGIN_REQUEST, logIn);
@@ -54,11 +67,15 @@ function* watchLogIn() {
 function* watchLogout() {
   yield takeLatest(LOGOUT_REQUEST, logout);
 }
+function* watchNameUpdate() {
+  yield takeLatest(UPDATE_NAME_REQUEST, nameUpdate);
+}
 
 
 export default function* userSaga() {
   yield all([
     fork(watchLogIn),
     fork(watchLogout),
+    fork(watchNameUpdate),
   ]);
 }

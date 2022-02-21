@@ -8,9 +8,12 @@ import { Form , Button, Stack} from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
 
 //store 
-import {actionLogin, logoutAction, LoginReqAction} from '../store/userReducer';
+import { loginReqAction } from '../store/userReducer';
 // store type
 import {RootState} from '../store/recusers';
+
+// util 
+import shortid from 'shortid';
 
 
 interface IProps {
@@ -37,11 +40,12 @@ const LoginForm = () => {
     e.preventDefault();
 
     const data = {
-      userId: '1', // userId 임의 설정함
+      userId: shortid.generate(), // userId 임의 설정함
       name : id,
-      password: password
+      password: password,
+      Posts: []
     }
-    dispatch(LoginReqAction(data));
+    dispatch(loginReqAction(data));
   }, [])
 
   return(

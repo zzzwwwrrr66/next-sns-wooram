@@ -3,8 +3,9 @@ import {useState, useEffect} from 'react';
 import Link from 'next/link';
 
 //redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../../store/recusers';
+import { deletePostReqAction,  } from '../../store/postReducer'
 
 //css 
 import { Card, ButtonGroup, ToggleButton, Dropdown, DropdownButton } from 'react-bootstrap';
@@ -16,7 +17,7 @@ import ImageList from './ImageList';
 
 interface IProps {
   userId: number
-  id: number,
+  contentId: number,
   content: string,
   nickname: string,
   comments: {
@@ -30,12 +31,13 @@ interface IProps {
   }[]
 }
 
-const PostContents = ({userId, id, content, nickname, comments, images} : IProps) => {
+const PostContents = ({userId, contentId, content, nickname, comments, images} : IProps) => {
+  const dispatch = useDispatch();
   const post = useSelector((state:RootState)=>state.postReducer);
-  const user = useSelector((state:RootState)=>state.userReducer);
+  const user = useSelector((state:RootState)=>state.userReducer) ;
+  const postLoading = useSelector((state:RootState) => state.postReducer.postLoading);
 
   useEffect(()=>{
-    console.log('PostList content ID', id);
   },[])
 
   const [ liked, setLiked ] = useState(false);
@@ -47,10 +49,13 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
   const onCommentOpendChange = () => {
     setCommnetOpend(prev=>!prev)
   }
+  const onDeleteContent = (contentId) =>() => {
+    dispatch(deletePostReqAction(contentId));
+  }
 
   
   return (
-    <div key={id} style={{marginBottom: '10px'}}>
+    <div style={{marginBottom: '10px'}}>
     <Card style={{ marginBottom: '15px' }}>
 
       <Card.Header as="h5">{nickname}</Card.Header>
@@ -82,7 +87,7 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
       <ToggleButton
         size='sm'
         className="mb-2"
-        id={`toggle-like-${id}`}
+        id={`toggle-like-${contentId}`}
         type="checkbox"
         variant="outline-primary"
         checked={liked}
@@ -93,7 +98,7 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
       </ToggleButton>
       <ToggleButton size='sm'
         className="mb-2"
-        id={`toggle-comment-opend-${id}`}
+        id={`toggle-comment-opend-${contentId}`}
         type="checkbox"
         variant="outline-primary"
         checked={commentOpend}
@@ -105,10 +110,10 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
 
       <DropdownButton id="dropdown-basic-button" title="small menu">
         {
-          user?.user?.userId == userId ? (
+          user ? (
             <>
               <Dropdown.Item>Update</Dropdown.Item>
-              <Dropdown.Item>delete</Dropdown.Item>
+              <Dropdown.Item onClick={onDeleteContent(contentId)}>delete</Dropdown.Item>
             </>
           ) : (
             <Dropdown.Item>신고</Dropdown.Item>
@@ -121,7 +126,7 @@ const PostContents = ({userId, id, content, nickname, comments, images} : IProps
       {
         commentOpend && (
           <>
-            <CommentForm contentId={id} />
+            <CommentForm contentId={contentId} />
             <CommentList comments={comments}></CommentList>
           </>
         )

@@ -2,8 +2,9 @@
 import { FC, useState, useCallback, useEffect } from 'react';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/recusers';
+import { addCommentReqAction } from '../../store/postReducer'
 
 // css 
 import { Form, FloatingLabel, Button, Container } from 'react-bootstrap';
@@ -16,18 +17,33 @@ interface IProps {
 }
 
 const CommentForm:FC<IProps> = ({contentId}) => {
-  const userId = useSelector((state:RootState) => state.userReducer.user?.userId);
+  const dispatch = useDispatch();
+  const user = useSelector((state:RootState) => state.userReducer.user);
+  const postCommentLoading = useSelector((state:RootState) => state.postReducer.commentLoading);
   const [comment, onChangeComment, setComment] = useInput('');
 
   useEffect(()=>{
-    console.log('commentForm content ID', contentId);
-  },[]);
+    if(postCommentLoading) {
+      setComment('');
+    }
+  },[postCommentLoading]);
 
   const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('userId', userId,'content ID',contentId, 'comment', comment);
-    setComment('');
-  },[comment, contentId, userId]);
+
+    if(user && comment.length) {
+      const payload = {
+        id: contentId,
+        data: {
+          User: {
+            nickname: user.name,
+          },
+          content: comment,
+        }
+      }
+      dispatch(addCommentReqAction(payload));
+    }
+  },[comment, contentId, user]);
 
   return (
     <div style={{border: 'dotted', padding: '10px'}}>
